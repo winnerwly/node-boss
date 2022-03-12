@@ -1,0 +1,15 @@
+{
+  "name": "hello-boss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "boss.js",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "qs": "^6.10.3"
+  }
+}

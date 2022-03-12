@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+package-lock.json
+db.json
+npm-debug.log
+.deploy_git/
+.idea
+key.pem
+public/
+yarn.lock
+
+boss-nana.js
+boss-wly.js
