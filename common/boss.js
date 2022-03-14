@@ -116,37 +116,41 @@ Boss.prototype.sayHelloToSomeGuy = async function (encryptJobId, expectId, secur
 
 // 主方法
 Boss.prototype.main = async function () {
-  const { data: lists } = await this.getCandidateList(this.limit)
-  console.log('----------------------------')
-  console.log('读取简历列表')
-  console.log('----------------------------')
-  encryptJobId = lists['zpData']['encryptJobId']
-  for (const i in lists['zpData']['geekList']) {
-    if (this.count > 0) {
-      const someGuy = lists['zpData']['geekList'][i]
-      const is = this.filterGuy(someGuy)
-      if (is) {
+  try {
+    const { data: lists } = await this.getCandidateList(this.limit)
+    console.log('----------------------------')
+    console.log('读取简历列表')
+    console.log('----------------------------')
+    encryptJobId = lists['zpData']['encryptJobId']
+    for (const i in lists['zpData']['geekList']) {
+      if (this.count > 0) {
+        const someGuy = lists['zpData']['geekList'][i]
+        const is = this.filterGuy(someGuy)
+        if (is) {
+          console.log('----------------------------')
+          console.log('应聘者职位符合要求')
+          console.log('----------------------------')
+          expectId = someGuy['geekCard']['expectId']
+          securityId = someGuy['geekCard']['securityId']
+          await this.sayHelloToSomeGuy(encryptJobId, expectId, securityId, someGuy)
+          // 随机等7-13s
+          await sleep(parseInt(Math.random() * 7 + 7))
+        } else if (this.count > 0) {
+          console.log('----------------------------')
+          console.log('应聘者职位不符合要求')
+          console.log('----------------------------')
+          this.main()
+          break
+        }
+      } else {
         console.log('----------------------------')
-        console.log('应聘者职位符合要求')
+        console.log('今日额度已使用完毕')
         console.log('----------------------------')
-        expectId = someGuy['geekCard']['expectId']
-        securityId = someGuy['geekCard']['securityId']
-        await this.sayHelloToSomeGuy(encryptJobId, expectId, securityId, someGuy)
-        // 随机等7-13s
-        await sleep(parseInt(Math.random() * 7 + 7))
-      } else if (this.count > 0) {
-        console.log('----------------------------')
-        console.log('应聘者职位不符合要求')
-        console.log('----------------------------')
-        this.main()
         break
       }
-    } else {
-      console.log('----------------------------')
-      console.log('今日额度已使用完毕')
-      console.log('----------------------------')
-      break
     }
+  } catch (err) {
+    console.log('err', err)
   }
 }
 
